@@ -1,0 +1,110 @@
+import "strings"
+import "types"
+
+_modules = {
+	"root": {
+		"data": {},
+		"path": [],
+		"resources": {
+			"dominos_order": {
+				"order": {
+					0: {
+						"applied": {
+							"address_api_object": "{\"City\":\"New York\",\"PostalCode\":\"10016\",\"Region\":\"NY\",\"Street\":\"464 3rd Avenue\",\"Type\":\"House\"}",
+							"id":                 "74D93920-ED26-11E3-AC10-0800200C9A66",
+							"item_codes": [
+								"10SCMEATZA",
+								"20BCOKE",
+							],
+							"store_id": "3687",
+						},
+						"destroy": false,
+						"diff": {
+							"address_api_object": {
+								"computed": false,
+								"new":      "{\"City\":\"New York\",\"PostalCode\":\"10016\",\"Region\":\"NY\",\"Street\":\"464 3rd Avenue\",\"Type\":\"House\"}",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"item_codes.#": {
+								"computed": false,
+								"new":      "2",
+								"old":      "",
+							},
+							"item_codes.0": {
+								"computed": false,
+								"new":      "10SCMEATZA",
+								"old":      "",
+							},
+							"item_codes.1": {
+								"computed": false,
+								"new":      "20BCOKE",
+								"old":      "",
+							},
+							"store_id": {
+								"computed": false,
+								"new":      "3687",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+		},
+	},
+}
+
+module_paths = [
+	[],
+]
+
+terraform_version = "0.11.14"
+
+variables = {
+	"card_cvv":             "123",
+	"card_expiration_date": "10/21",
+	"card_number":          "1234123412341234",
+	"card_zip_code":        "10010",
+	"drink_attributes": [
+		"20oz Bottle Coke",
+	],
+	"email":      "roger@hashicorp.com",
+	"first_name": "Roger",
+	"last_name":  "Berlind",
+	"phone":      "19147670620",
+	"pizza_attributes": [
+		"Large",
+		"MeatZZa",
+	],
+	"store_city":     "New York",
+	"store_state":    "NY",
+	"store_street":   "464 3rd Avenue",
+	"store_zip_code": "10016",
+}
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+path = _modules.root.path
+resources = _modules.root.resources
