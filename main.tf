@@ -103,6 +103,6 @@ data "dominos_menu_item" "drink" {
 
 resource "dominos_order" "order" {
   address_api_object = "${data.dominos_address.addr.api_object}"
-  item_codes         = ["${data.dominos_menu_item.item.matches.0.code}"]
+  item_codes         = ["${data.dominos_menu_item.pizza.matches.*.code}", "${data.dominos_menu_item.drink.matches.*.code}"]
   store_id           = "${data.dominos_store.store.store_id}"
 }
