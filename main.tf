@@ -47,24 +47,24 @@ variable "store_zip_code" {
 }
 
 provider "dominos" {
-  first_name    = "Roger"
-  last_name     = "Berlind"
-  email_address = "roger@hashicorp.com"
-  phone_number  = "15555555555"
+  first_name    = "${var.first_name}"
+  last_name     = "${var.last_name}"
+  email_address = "${var.email}"
+  phone_number  = "${var.phone}"
 
   credit_card {
-    number = 1234567891011123
-    cvv    = 131
-    date   = "09/22"
-    zip    = 18192
+    number = "${var.card_number}"
+    cvv    = "${var.card_cvv}"
+    date   = "${var.card_expiration_date}"
+    zip    = "${var.card_zip_code}"
   }
 }
 
 data "dominos_address" "addr" {
-  street = "464 3rd Avenue"
-  city   = "New York"
-  state  = "NY"
-  zip    = "10016"
+  street = "${var.store_street}"
+  city   = "${var.store_city}"
+  state  = "${var.store_state}"
+  zip    = "${var.store_zip_code}"
 }
 
 data "dominos_store" "store" {
