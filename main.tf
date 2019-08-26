@@ -51,17 +51,9 @@ variable "pizza_attributes" {
   type = "list"
 }
 
-variable "pizza_count" {
-  description = "number of pizzas to order"
-}
-
 variable "drink_attributes" {
   description = "attributes of the drinks to order"
   type = "list"
-}
-
-variable "drink_count" {
-  description = "number of drinks to order"
 }
 
 provider "dominos" {
@@ -90,19 +82,17 @@ data "dominos_store" "store" {
 }
 
 data "dominos_menu_item" "pizza" {
-  count        = "${var.pizza_count}"
   store_id     = "${data.dominos_store.store.store_id}"
   query_string = "${var.pizza_attributes}"
 }
 
 data "dominos_menu_item" "drink" {
-  count        = "${var.drink_count}"
   store_id     = "${data.dominos_store.store.store_id}"
   query_string = "${var.drink_attributes}"
 }
 
 resource "dominos_order" "order" {
   address_api_object = "${data.dominos_address.addr.api_object}"
-  item_codes         = ["${data.dominos_menu_item.pizza.matches.*.code}", "${data.dominos_menu_item.drink.matches.*.code}"]
+  item_codes         = ["${data.dominos_menu_item.pizza.matches.0.code}", "${data.dominos_menu_item.drink.matches.0.code}"]
   store_id           = "${data.dominos_store.store.store_id}"
 }
