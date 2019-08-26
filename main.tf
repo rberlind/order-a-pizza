@@ -46,6 +46,24 @@ variable "store_zip_code" {
   description = "store zip code"
 }
 
+variable "pizza_attributes" {
+  description = "attributes of the pizza to order"
+  type = "list"
+}
+
+variable "pizza_count" {
+  description = "number of pizzas to order"
+}
+
+variable "drink_attributes" {
+  description = "attributes of the drinks to order"
+  type = "list"
+}
+
+variable "drink_count" {
+  description = "number of drinks to order"
+}
+
 provider "dominos" {
   first_name    = "${var.first_name}"
   last_name     = "${var.last_name}"
@@ -71,9 +89,16 @@ data "dominos_store" "store" {
   address_url_object = "${data.dominos_address.addr.url_object}"
 }
 
-data "dominos_menu_item" "item" {
+data "dominos_menu_item" "pizza" {
+  count        = "${var.pizza_count}"
   store_id     = "${data.dominos_store.store.store_id}"
-  query_string = ["philly", "medium"]
+  query_string = "${var.pizza_attributes}"
+}
+
+data "dominos_menu_item" "drink" {
+  count        = "${var.drink_count}"
+  store_id     = "${data.dominos_store.store.store_id}"
+  query_string = "${var.drink_attributes}"
 }
 
 resource "dominos_order" "order" {
