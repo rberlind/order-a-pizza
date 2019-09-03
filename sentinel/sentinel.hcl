@@ -5,3 +5,7 @@ policy "restrict-order-cost" {
 policy "restrict-order-size" {
   enforcement_level = "soft-mandatory"
 }
+
+policy "no-pineapple" {
+  enforcement_level = "soft-mandatory"
+}
