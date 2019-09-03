@@ -11,7 +11,7 @@ variable "email" {
 }
 
 variable "phone" {
-  description = "phone"
+  description = "phone number"
 }
 
 variable "card_number" {
