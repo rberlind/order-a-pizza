@@ -1,0 +1,126 @@
+import "strings"
+import "types"
+
+_modules = {
+	"root": {
+		"data": {
+			"dominos_address": {
+				"addr": {
+					0: {
+						"attr": {
+							"api_object": "{\"City\":\"New York\",\"PostalCode\":\"10016\",\"Region\":\"NY\",\"Street\":\"464 3rd Avenue\",\"Type\":\"House\"}",
+							"city":       "New York",
+							"id":         "address",
+							"state":      "NY",
+							"street":     "464 3rd Avenue",
+							"url_object": "{\"line1\":\"464 3rd Avenue\",\"line2\":\"New York, NY 10016\"}",
+							"zip":        "10016",
+						},
+						"depends_on": [],
+						"id":         "address",
+						"tainted":    false,
+					},
+				},
+			},
+			"dominos_menu_item": {
+				"drink": {
+					0: {
+						"attr": {
+							"id": "3687",
+							"matches": [
+								{
+									"code":        "20BCOKE",
+									"name":        "20oz Bottle Coke®",
+									"price_cents": "299",
+								},
+							],
+							"query_string": [
+								"20oz Bottle Coke",
+							],
+							"store_id": "3687",
+						},
+						"depends_on": [
+							"data.dominos_store.store",
+						],
+						"id":      "3687",
+						"tainted": false,
+					},
+				},
+				"pizza": {
+					0: {
+						"attr": {
+							"id": "3687",
+							"matches": [
+								{
+									"code":        "P14IREUH",
+									"name":        "Large (14\") Hand Tossed Honolulu Hawaiian",
+									"price_cents": "2249",
+								},
+							],
+							"query_string": [
+								"Large",
+								"Hand Tossed",
+								"Honolulu Hawaiian",
+							],
+							"store_id": "3687",
+						},
+						"depends_on": [
+							"data.dominos_store.store",
+						],
+						"id":      "3687",
+						"tainted": false,
+					},
+				},
+			},
+			"dominos_store": {
+				"store": {
+					0: {
+						"attr": {
+							"address_url_object": "{\"line1\":\"464 3rd Avenue\",\"line2\":\"New York, NY 10016\"}",
+							"delivery_minutes":   "28",
+							"id":                 "store",
+							"store_id":           "3687",
+						},
+						"depends_on": [
+							"data.dominos_address.addr",
+						],
+						"id":      "store",
+						"tainted": false,
+					},
+				},
+			},
+		},
+		"outputs":   {},
+		"path":      [],
+		"resources": {},
+	},
+}
+
+module_paths = [
+	[],
+]
+
+terraform_version = "0.11.14"
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+outputs = _modules.root.outputs
+path = _modules.root.path
+resources = _modules.root.resources
