@@ -1,3 +1,7 @@
+terraform {
+  required_version = ">= 0.12.0"
+}
+
 variable "first_name" {
   description = "first name"
 }
@@ -47,52 +51,76 @@ variable "store_zip_code" {
 }
 
 variable "pizza_attributes" {
-  description = "attributes of the pizza to order"
-  type = "list"
+  description = "attributes of the pizzas to order"
+  type        = list(list(string))
 }
 
 variable "drink_attributes" {
   description = "attributes of the drinks to order"
-  type = "list"
+  type        = list(list(string))
 }
 
 provider "dominos" {
-  first_name    = "${var.first_name}"
-  last_name     = "${var.last_name}"
-  email_address = "${var.email}"
-  phone_number  = "${var.phone}"
+  first_name    = var.first_name
+  last_name     = var.last_name
+  email_address = var.email
+  phone_number  = var.phone
 
   credit_card {
-    number = "${var.card_number}"
-    cvv    = "${var.card_cvv}"
-    date   = "${var.card_expiration_date}"
-    zip    = "${var.card_zip_code}"
+    number = var.card_number
+    cvv    = var.card_cvv
+    date   = var.card_expiration_date
+    zip    = var.card_zip_code
   }
 }
 
 data "dominos_address" "addr" {
-  street = "${var.store_street}"
-  city   = "${var.store_city}"
-  state  = "${var.store_state}"
-  zip    = "${var.store_zip_code}"
+  street = var.store_street
+  city   = var.store_city
+  state  = var.store_state
+  zip    = var.store_zip_code
 }
 
 data "dominos_store" "store" {
-  address_url_object = "${data.dominos_address.addr.url_object}"
+  address_url_object = data.dominos_address.addr.url_object
 }
 
-data "dominos_menu_item" "pizza" {
-  store_id     = "${data.dominos_store.store.store_id}"
-  query_string = "${var.pizza_attributes}"
+data "dominos_menu_item" "pizzas" {
+  count        = length(var.pizza_attributes)
+  store_id     = data.dominos_store.store.store_id
+  query_string = var.pizza_attributes[count.index]
 }
 
-data "dominos_menu_item" "drink" {
-  store_id     = "${data.dominos_store.store.store_id}"
-  query_string = "${var.drink_attributes}"
+data "dominos_menu_item" "drinks" {
+  count        = length(var.drink_attributes)
+  store_id     = data.dominos_store.store.store_id
+  query_string = var.drink_attributes[count.index]
 }
 
 resource "dominos_order" "order" {
-  address_api_object = "${data.dominos_address.addr.api_object}"
-  item_codes         = ["${data.dominos_menu_item.pizza.matches.0.code}", "${data.dominos_menu_item.drink.matches.0.code}"]
-  store_id           = "${data.dominos_store.store.store_id}"
+  address_api_object = data.dominos_address.addr.api_object
+  item_codes         = [data.dominos_menu_item.pizzas[*].matches[0].code, data.dominos_menu_item.drinks[*].matches[0].code]
+  store_id           = data.dominos_store.store.store_id
+}
+
+output "pizzas" {
+  value = [
+    for pizza in data.dominos_menu_item.pizzas:
+      {
+        name = pizza[0].name
+        code = pizza[0].code
+        price_cents = pizza[0].price_cents
+      }
+  ]
+}
+
+output "drinks" {
+  value = [
+    for drink in data.dominos_menu_item.drinks:
+      {
+        name = drink[0].name
+        code = drink[0].code
+        price_cents = drink[0].price_cents
+      }
+  ]
 }
