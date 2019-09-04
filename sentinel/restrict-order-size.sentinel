@@ -62,5 +62,5 @@ calculate_total_number_of_items_across_all_orders = func() {
 # Main rule
 total_number_of_items = calculate_total_number_of_items_across_all_orders()
 main = rule {
-  total_number_of_items < 3
+  total_number_of_items <= 4
 }

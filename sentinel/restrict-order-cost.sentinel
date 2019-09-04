@@ -69,5 +69,5 @@ calculate_cost = func() {
 # Main rule
 cost = calculate_cost()
 main = rule {
-  cost < 21.00
+  cost <= 51.00
 }

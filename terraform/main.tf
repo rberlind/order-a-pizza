@@ -103,15 +103,6 @@ resource "dominos_order" "order" {
   store_id           = data.dominos_store.store.store_id
 }
 
-# Uncomment this when commenting out the dominos_order resource
-# so that you can do an apply and see the outputs
-resource "random_id" "random" {
-  keepers  = {
-    uuid = "${uuid()}"
-  }
-  byte_length = 32
-}
-
 output "pizzas" {
   value = [
     for pizza in data.dominos_menu_item.pizzas:
