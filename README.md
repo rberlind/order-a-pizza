@@ -18,7 +18,7 @@ Here are some of the key variables:
 ```
 [
  ["20oz", "Coke"],
- ["20oz" "Diet Coke"]
+ ["20oz", "Diet Coke"]
 ]
 ```
 * The *store_street*, *store_city*, *store_state*, and *store_zip_code* attributes are required to uniquely specify a store since the Dominos provider determines the store ID from these attributes.
