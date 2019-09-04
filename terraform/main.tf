@@ -97,18 +97,20 @@ data "dominos_menu_item" "drinks" {
   query_string = var.drink_attributes[count.index]
 }
 
-/*resource "dominos_order" "order" {
+resource "dominos_order" "order" {
   address_api_object = data.dominos_address.addr.api_object
   item_codes         = [data.dominos_menu_item.pizzas[*].matches[0].code, data.dominos_menu_item.drinks[*].matches[0].code]
   store_id           = data.dominos_store.store.store_id
-}*/
+}
 
-resource "random_id" "random" {
+# Uncomment this when commenting out the dominos_order resource
+# so that you can do an apply and see the outputs
+/*resource "random_id" "random" {
   keepers  = {
     uuid = "${uuid()}"
   }
   byte_length = 32
-}
+}*/
 
 output "pizzas" {
   value = [
