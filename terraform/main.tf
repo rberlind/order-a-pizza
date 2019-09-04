@@ -97,19 +97,26 @@ data "dominos_menu_item" "drinks" {
   query_string = var.drink_attributes[count.index]
 }
 
-resource "dominos_order" "order" {
+/*resource "dominos_order" "order" {
   address_api_object = data.dominos_address.addr.api_object
   item_codes         = [data.dominos_menu_item.pizzas[*].matches[0].code, data.dominos_menu_item.drinks[*].matches[0].code]
   store_id           = data.dominos_store.store.store_id
+}*/
+
+resource "random_id" "random" {
+  keepers  = {
+    uuid = "${uuid()}"
+  }
+  byte_length = 32
 }
 
 output "pizzas" {
   value = [
     for pizza in data.dominos_menu_item.pizzas:
       {
-        name = pizza[0].name
-        code = pizza[0].code
-        price_cents = pizza[0].price_cents
+        name = pizza.matches[0].name
+        code = pizza.matches[0].code
+        price_cents = pizza.matches[0].price_cents
       }
   ]
 }
@@ -118,9 +125,9 @@ output "drinks" {
   value = [
     for drink in data.dominos_menu_item.drinks:
       {
-        name = drink[0].name
-        code = drink[0].code
-        price_cents = drink[0].price_cents
+        name = drink.matches[0].name
+        code = drink.matches[0].code
+        price_cents = drink.matches[0].price_cents
       }
   ]
 }
