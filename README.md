@@ -7,7 +7,7 @@ It uses Terraform 0.12 and allows you to order multiple pizzas and multiple drin
 
 ## Variables
 Here are some of the key variables:
-* *pizza_attributes* is a list of lists of words from the names of Dominos specialty pizzas as they appear on their website after selecting a style like "Deluxe", a size ("Small", "Medium", or "Large"), and a crust ("Hand Tossed", "Thin", or "Handmade").  So, you could set this to something like:
+* *pizza_attributes* is a list of lists of words from the names of Dominos specialty pizzas as they appear on their website after selecting a style like "Deluxe", a size ("Small", "Medium", or "Large"), and a crust ("Hand Tossed", "Thin", or "Brooklyn").  So, you could set this to something like:
 ```
 [
  ["Small", "Hand Tossed", "MeatZZa" ],
@@ -30,3 +30,5 @@ There are 3 Sentinel policies that can be used to restrict orders placed with th
 1. [restrict-order-size.sentinel](./sentinel/restrict-order-size.sentinel) prevents an order from having more than 2 items in it.
 1. [restrict-order-cost.sentinel](./sentinel/restrict-order-cost.sentinel) restricts orders from costing $21 or more.
 1. [no-pineapple.sentinel](./sentinel/no-pineapple.sentinel) blocks pizzas that have pineapple on them by blocking any pizza that has "Hawaiian" in its name.
+
+## How to See Outputs
