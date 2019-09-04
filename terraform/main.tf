@@ -99,7 +99,7 @@ data "dominos_menu_item" "drinks" {
 
 resource "dominos_order" "order" {
   address_api_object = data.dominos_address.addr.api_object
-  item_codes         = [data.dominos_menu_item.pizzas[*].matches[0].code, data.dominos_menu_item.drinks[*].matches[0].code]
+  item_codes         = concat(data.dominos_menu_item.pizzas[*].matches[0].code, data.dominos_menu_item.drinks[*].matches[0].code)
   store_id           = data.dominos_store.store.store_id
 }
 
