@@ -30,5 +30,3 @@ There are 3 Sentinel policies that can be used to restrict orders placed with th
 1. [restrict-order-size.sentinel](./sentinel/restrict-order-size.sentinel) prevents an order from having more than 2 items in it.
 1. [restrict-order-cost.sentinel](./sentinel/restrict-order-cost.sentinel) restricts orders from costing $21 or more.
 1. [no-pineapple.sentinel](./sentinel/no-pineapple.sentinel) blocks pizzas that have pineapple on them by blocking any pizza that has "Hawaiian" in its name.
-
-## How to See Outputs
