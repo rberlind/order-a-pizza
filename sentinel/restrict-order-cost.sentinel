@@ -54,7 +54,7 @@ calculate_cost = func() {
   for menu_items as address, d {
     for d.attr.matches as match {
       # Add cost of current menu item
-      #print( "Adding menu_item:", match)
+      print( "Adding menu_item:", match)
       order_cost = order_cost + float(match.price_cents) / 100
     }
   }
