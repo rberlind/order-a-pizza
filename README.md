@@ -11,16 +11,18 @@ Here are some of the key variables:
 ```
 [
  ["Small", "Hand Tossed", "MeatZZa" ],
- ["Large", "Thin Crust", "Honolulu Hawaiian"]
+ ["Large", "Thin", "Honolulu Hawaiian"]
 ]
 ```
 * *drink_attributes* is a list of lists of words from the names of Dominos specialty pizzas as they appear on their website after selecting a type like "Coke" or "Diet Coke" and a size like "2-Liter Bottle" or "20oz Bottle".  So, you could set this to something like:
 ```
 [
- ["20oz", "Coke"],
- ["20oz", "Diet Coke"]
+ ["20oz Bottle Coke"],
+ ["20oz Bottle Diet Coke"]
 ]
 ```
+Note: it is better to enter the drinks with a single string to avoid multiple matches.
+
 * The *store_street*, *store_city*, *store_state*, and *store_zip_code* attributes are required to uniquely specify a store since the Dominos provider determines the store ID from these attributes.
 
 The attributes *first_name*, *last_name*, *email*, and *phone* are needed in order to do a plan against the provider and run the Sentinel policy checks, but their values don't matter unless you actually do an apply which will actually order a pizza.  Please do not do an apply with a real credit card number since it will be charged and since Dominos will try to deliver a pizza to the address you gave.
